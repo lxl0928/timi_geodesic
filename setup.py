@@ -7,7 +7,7 @@ setup(
     author='Timi long',
     author_email='lixiaolong@smuer.cn',
     description='根据传入待测点坐标，所有已知坐标点，返回待测点坐标到所有已知坐标点的距离，并按距离升序输出该待测点到各已知坐标点的距离',
-    long_description="""根据传入待测点坐标，所有已知坐标点，返回待测点坐标到所有已知坐标点的距离，并按距离升序输出该待测点到各已知坐标点的距  离""",
+    long_description="""根据传入待测点坐标，所有已知坐标点，返回待测点坐标到所有已知坐标点的距离，并按距离升序输出该待测点到各已知坐标点的距离""",
     packages=['geodesic'],
     classifiers=[
         'Development Status :: 5 - Production/Stable',
