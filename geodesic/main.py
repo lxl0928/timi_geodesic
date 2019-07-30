@@ -23,18 +23,18 @@ class TimiGeodesic(object):
 
         dlon = lon2 - lon1
         dlat = lat2 - lat1
-        a = sin(dlat / 2) ** 2 + cos(lat1) * cos(lat2) * sin(dlon / 2) ** 2
-        c = 2 * asin(sqrt(a))  # 反正弦
-        r = 6371
-        return c * r
+        a_sin = sin(dlat / 2) ** 2 + cos(lat1) * cos(lat2) * sin(dlon / 2) ** 2
+        c_asin = 2 * asin(sqrt(a_sin))  # 反正弦
+        radius = 6371.393
+        return c_asin * radius
 
-    def get_distance_detail_info(self, input, target_points, sort='asc'):
+    def get_distance_detail_info(self, input_coordinate, coordinates, sort='asc'):
         """
         geodesic = TimiGeodesic()
 
         result = geodesic.get_distance_detail_info(
-                input=(123.123, -12.21),
-                target_points=[
+                input_coordinate=(123.123, -12.21),
+                coordinates=[
                     (1, 123.123, -12.21, 0),
                     (2, 89.98, 14.31, 0),
                     (3, 90.23, 14.31, 0),
@@ -46,22 +46,22 @@ class TimiGeodesic(object):
         # [(1, 123.123, -12.21, 0.0), (3, 90.23, 14.31, 4672.014658127451), (2, 89.98, 14.31, 4693.407128885379), (4, 10.88, 14.31, 12704.366004534697)]
 
 
-        :param input: <tuple>, (123.12, -10.01), 待测点坐标
-        :param target_points:  <list>, [(, , , ),...], 目标点的坐标集
+        :param input_coordinate: <tuple>, (123.12, -10.01), 待测点坐标
+        :param coordinates:  <list>, [(, , , ),...], 目标点的坐标集
         :param sort: <str>, 'asc' or 'desc', 排序方式
         :return:
         """
         assert sort in ('asc', 'desc'), ValueError('param sort value error, support: asc or desc.')
-        assert isinstance(input, tuple), TypeError(
-            'param input type error, support type is tuple(), example as: (123.21, -10.21)')
-        assert isinstance(target_points, list), TypeError(
-            "param target_points type error, support type is list(),"
+        assert isinstance(input_coordinate, tuple), TypeError(
+            'param input_coordinate type error, support type is tuple(), example as: (123.21, -10.21)')
+        assert isinstance(coordinates, list), TypeError(
+            "param coordinates type error, support type is list(),"
             "example as: [('id', 'longitude', 'latitude', 'distance')]")
 
         new_points = []
-        for inx, point in enumerate(target_points):
+        for inx, point in enumerate(coordinates):
             _id, longitude, latitude, distance = point
-            distance = self.__haversine(lon1=input[0], lat1=input[1], lon2=longitude, lat2=latitude)
+            distance = self.__haversine(lon1=input_coordinate[0], lat1=input_coordinate[1], lon2=longitude, lat2=latitude)
             new_points.append((_id, longitude, latitude, distance))
 
         if sort == 'asc':
@@ -71,14 +71,14 @@ class TimiGeodesic(object):
 
         return new_points
 
-    def get_distance_id_list(self, input, target_points, sort='asc'):
+    def get_distance_id_list(self, input_coordinate, coordinates, sort='asc'):
         points = self.get_distance_detail_info(
-            input=input, target_points=target_points, sort=sort
+            input_coordinate=input_coordinate, coordinates=coordinates, sort=sort
         )
         return [item[0] for item in points]
 
-    def get_distance_id_dict(self,  input, target_points, sort='asc'):
+    def get_distance_id_dict(self, input_coordinate, coordinates, sort='asc'):
         points = self.get_distance_detail_info(
-            input=input, target_points=target_points, sort=sort)
+            input_coordinate=input_coordinate, coordinates=coordinates, sort=sort)
 
         return [{item[0]: item[-1]} for item in points]
