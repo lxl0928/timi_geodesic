@@ -2,7 +2,7 @@ from setuptools import setup
 
 setup(
     name="timi-geodesic",
-    version="1.0.1",
+    version="1.1.0",
     url='http://github.com/lxl0928/timi_geodesic',
     author='Timi long',
     author_email='lixiaolong@smuer.cn',
