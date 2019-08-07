@@ -8,7 +8,7 @@ pip install timi-geodesic
 
 # examples
 
-```
+```python
 # coding: utf-8
 
 from geodesic import geodesic
